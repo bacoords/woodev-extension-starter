@@ -2,6 +2,8 @@
 
 A scaffold for building modern WordPress/WooCommerce plugins with React admin interfaces, REST APIs, and Gutenberg blocks.
 
+[Preview in WordPress Playground](https://playground.wordpress.net/)
+
 ## Quick Start
 
 This template is designed for AI-assisted development. To create a new plugin:
