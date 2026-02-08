@@ -71,6 +71,7 @@ When adding features:
 
 | Task | Files to Edit |
 |------|---------------|
+| Add custom post type | `inc/post-types.php` |
 | Add REST endpoint | `inc/rest-api.php` |
 | Add admin component | `src/js/admin/components/`, import in `App.js` |
 | Add PHP hook/filter | `inc/hooks.php` |

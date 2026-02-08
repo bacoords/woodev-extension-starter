@@ -64,6 +64,10 @@ A Gutenberg block demonstrating show/hide functionality using the Interactivity 
 
 ## Customization Guide
 
+### Adding a Custom Post Type
+
+Register custom post types in `inc/post-types.php`. After registering, update `src/js/admin/hooks/useItems.js` to use your post type slug instead of `'page'`.
+
 ### Adding a New Admin Feature
 
 1. Create `src/js/admin/components/NewFeature.js`

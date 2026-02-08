@@ -26,6 +26,7 @@ if ( file_exists( WOODEV_EXTENSION_STARTER_DIR . 'vendor/autoload.php' ) ) {
 }
 
 // Feature modules.
+require_once WOODEV_EXTENSION_STARTER_DIR . 'inc/post-types.php';
 require_once WOODEV_EXTENSION_STARTER_DIR . 'inc/rest-api.php';
 require_once WOODEV_EXTENSION_STARTER_DIR . 'inc/admin-page.php';
 require_once WOODEV_EXTENSION_STARTER_DIR . 'inc/blocks.php';
