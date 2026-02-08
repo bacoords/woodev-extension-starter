@@ -28,28 +28,6 @@ Also rename the main plugin file from `woodev-extension-starter.php` to match th
 
 After renaming, run `composer install && npm install && npm run build` to verify everything works.
 
-## Build Commands
-
-```bash
-composer install       # Install PHP dependencies (for linting)
-npm install            # Install JS dependencies
-npm run build          # Production build (scripts + blocks)
-npm run build:scripts  # Build admin scripts only
-npm run build:blocks   # Build blocks only (Interactivity API)
-npm run start          # Development with watch (both)
-npm run start:scripts  # Watch admin scripts only
-npm run start:blocks   # Watch blocks only
-npm run lint           # Run all linters (JS, CSS, PHP)
-npm run lint:js        # Lint JavaScript
-npm run lint:css       # Lint styles
-npm run lint:php       # Lint PHP (WordPress Coding Standards)
-npm run lint:php:fix   # Auto-fix PHP issues
-```
-
-**Build output:**
-- Scripts → `build/scripts/` (admin.js, admin.asset.php)
-- Blocks → `build/blocks/` (auto-discovered from src/blocks/)
-
 ## Architecture Patterns
 
 ### PHP Structure
@@ -76,7 +54,7 @@ Located in `inc/rest-api.php`:
 - Use `sanitize_callback` and `validate_callback` for args
 - Return `WP_REST_Response` with appropriate status codes
 
-**Note**: The DataViews demo uses `@wordpress/core-data` which handles REST calls internally. Custom endpoints are only needed for operations not covered by WordPress core (custom business logic, aggregations, etc.).
+**Note**: The DataViews demo uses `@wordpress/core-data` which handles REST calls for post types internally. Custom endpoints are only needed for operations not covered by WordPress core (custom business logic, aggregations, etc.).
 
 ### DataViews Pattern
 
@@ -87,34 +65,12 @@ The admin UI uses `@wordpress/dataviews` with the WordPress Data Layer:
 
 To switch post types, change `'page'` to your CPT slug in `useItems.js`.
 
-### Block Pattern
-
-Blocks in `src/blocks/*/` follow this structure:
-- `block.json`: Metadata, supports, scripts
-- `index.js`: Registration only
-- `edit.js`: Editor component using `useBlockProps`
-- `view.js`: Interactivity API store for frontend
-- `render.php`: Server-side template
-
-## Naming Conventions
-
-| Type | Convention | Example |
-|------|------------|---------|
-| PHP namespace | PascalCase | `WoodevExtensionStarter\RestAPI` |
-| PHP functions | snake_case | `get_items()` |
-| JS components | PascalCase | `App.js` |
-| JS hooks | camelCase with use prefix | `useItems.js` |
-| JS config files | camelCase | `itemConfig.js` |
-| REST namespace | lowercase with version | `woodev-starter/v1` |
-| Block name | lowercase with slash | `woodev-starter/toggle-content` |
-
 ## Key Files to Modify
 
 When adding features:
 
 | Task | Files to Edit |
 |------|---------------|
-| Add admin page field | `src/js/admin/config/itemConfig.js` |
 | Add REST endpoint | `inc/rest-api.php` |
 | Add admin component | `src/js/admin/components/`, import in `App.js` |
 | Add PHP hook/filter | `inc/hooks.php` |
@@ -134,7 +90,7 @@ DataViews component (src/js/admin/components/App.js)
 
 The Data Layer handles authentication, caching, and optimistic updates automatically. To use a custom post type, change `'page'` to your CPT slug in `useItems.js`.
 
-For custom endpoints (settings, business logic), use `inc/rest-api.php` with `wp_localize_script` in `inc/admin-page.php`.
+For custom endpoints (settings, business logic), use `inc/rest-api.php` with `wp_localize_script` in `inc/admin-page.php`. These endpoints can then be called from your React components using `apiFetch`.
 
 ## Common Tasks
 
@@ -176,13 +132,6 @@ register_rest_route(
 );
 ```
 
-### Adding a new PHP feature module
-
-1. Create `inc/new-feature.php` with namespace
-2. Add to main plugin file:
-```php
-require_once WOODEV_EXTENSION_STARTER_DIR . 'inc/new-feature.php';
-```
 
 ## Dependencies
 
@@ -205,3 +154,4 @@ Scripts rely on WordPress/WooCommerce packages extracted at build time:
 - The Data Layer (`@wordpress/core-data`) handles REST auth automatically
 - WooCommerce is required for the admin page to function
 - Admin page uses `addFilter('woocommerce_admin_pages_list', ...)` for SPA integration
+- Avoiding adding manual inline style overrides to components unless specifically requested.
