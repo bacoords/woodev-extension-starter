@@ -4,8 +4,10 @@ A scaffold for building modern WordPress/WooCommerce plugins with React admin in
 
 ## Quick Start
 
+This template is designed for AI-assisted development. To create a new plugin:
+
 1. Copy this directory and rename it to your plugin name
-2. Find and replace:
+2. Ask your AI agent to rename the plugin by performing find and replace on these patterns:
    - `woodev-extension-starter` → `your-plugin-name`
    - `WoodevExtensionStarter` → `YourPluginName`
    - `woodev_extension_starter` → `your_plugin_name`
@@ -13,8 +15,7 @@ A scaffold for building modern WordPress/WooCommerce plugins with React admin in
    - `woodev-starter-tool` → `your-tool-name`
    - `woodevStarterTool` → `yourToolName`
    - `woodev-starter/v1` → `your-plugin/v1`
-3. Update the plugin header in the main PHP file
-4. Install dependencies and build:
+3. Install dependencies and build:
 
 ```bash
 composer install

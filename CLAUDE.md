@@ -10,6 +10,24 @@ A scaffold for modern WordPress/WooCommerce plugins featuring:
 - Gutenberg blocks with Interactivity API
 - wp-scripts build system with WooCommerce dependency extraction
 
+## Creating a New Plugin from This Template
+
+When the user asks to create a new plugin based on this template, perform these find-and-replace operations across all files:
+
+| Find | Replace With |
+|------|--------------|
+| `woodev-extension-starter` | `new-plugin-name` |
+| `WoodevExtensionStarter` | `NewPluginName` |
+| `woodev_extension_starter` | `new_plugin_name` |
+| `WOODEV_EXTENSION_STARTER` | `NEW_PLUGIN_NAME` |
+| `woodev-starter-tool` | `new-tool-name` |
+| `woodevStarterTool` | `newToolName` |
+| `woodev-starter/v1` | `new-plugin/v1` |
+
+Also rename the main plugin file from `woodev-extension-starter.php` to match the new plugin name.
+
+After renaming, run `composer install && npm install && npm run build` to verify everything works.
+
 ## Build Commands
 
 ```bash
