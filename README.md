@@ -2,7 +2,7 @@
 
 A scaffold for building modern WordPress/WooCommerce plugins with React admin interfaces, REST APIs, and Gutenberg blocks.
 
-[Preview in WordPress Playground](https://playground.wordpress.net/)
+[Preview in WordPress Playground](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/bacoords/woodev-extension-starter/refs/heads/main/blueprint.json)
 
 ## Quick Start
 
