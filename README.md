@@ -35,19 +35,23 @@ Registers a page under the WooCommerce menu using the WooCommerce Admin SPA patt
 
 ### REST API
 
-Namespaced endpoints with proper permission callbacks and parameter validation.
+Template for custom endpoints with proper permission callbacks and parameter validation.
 
 - Namespace: `woodev-starter/v1`
-- Endpoints: `/items` (GET), `/items/{id}` (POST)
+- Example endpoints: `/settings` (GET/POST)
 - Location: `inc/rest-api.php`
+
+**Note**: The DataViews demo uses `@wordpress/core-data` which leverages the built-in WordPress REST API. Custom endpoints are only needed for operations not covered by core.
 
 ### DataViews Admin UI
 
-Pre-built table/grid interface using `@wordpress/dataviews`.
+Pre-built table/grid interface using `@wordpress/dataviews` with WordPress Data Layer.
 
 - **App.js**: Main component with view state management
-- **useItems.js**: Custom hook for data fetching with pagination
-- **itemConfig.js**: Field definitions and action handlers (edit/delete)
+- **useItems.js**: Custom hook using `useEntityRecords` from `@wordpress/core-data`
+- **itemConfig.js**: Field definitions and action handlers (view/edit/trash)
+
+The demo displays WordPress pages. Replace `'page'` with your custom post type slug to work with your own data.
 
 ### WordPress Block with Interactivity API
 
@@ -65,6 +69,18 @@ A Gutenberg block demonstrating show/hide functionality using the Interactivity 
 2. Import and use in `App.js`
 3. Add any new REST endpoints in `inc/rest-api.php`
 
+### Changing the Post Type
+
+The demo uses WordPress pages. To use a custom post type:
+
+1. Edit `src/js/admin/hooks/useItems.js`:
+```javascript
+// Change 'page' to your post type slug
+useEntityRecords( 'postType', 'your_post_type', { ... } );
+```
+
+2. Update field definitions in `src/js/admin/config/itemConfig.js` to match your post type's fields.
+
 ### Adding Fields to DataViews
 
 Edit `src/js/admin/config/itemConfig.js`:
@@ -76,7 +92,7 @@ export const fields = [
         label: 'Your Field',
         type: 'text',
         enableSorting: true,
-        getValue: (item) => item.your_field,
+        getValue: ({ item }) => item.your_field,
     },
     // ...
 ];

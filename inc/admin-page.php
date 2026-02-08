@@ -22,12 +22,12 @@ add_action(
 		}
 
 		wc_admin_register_page(
-			array(
+			[
 				'id'     => 'woodev-starter-tool',
 				'title'  => __( 'My Extension', 'woodev-extension-starter' ),
 				'parent' => 'woocommerce',
 				'path'   => '/woodev-starter-tool',
-			)
+			]
 		);
 	}
 );
@@ -68,18 +68,22 @@ add_action(
 		wp_enqueue_style(
 			'woodev-starter-tool',
 			WOODEV_EXTENSION_STARTER_URL . 'build/scripts/style-admin.css',
-			array( 'wp-components' ),
+			[ 'wp-components' ],
 			$asset['version']
 		);
 
-		// Localize script with REST API info.
-		wp_localize_script(
-			'woodev-starter-tool',
-			'woodevStarterTool',
-			array(
-				'restUrl' => rest_url( 'woodev-starter/v1/' ),
-				'nonce'   => wp_create_nonce( 'wp_rest' ),
-			)
-		);
+		/*
+		 * Optional: Localize script with custom data.
+		 * The demo uses @wordpress/core-data which handles auth automatically.
+		 * Uncomment if you need to pass custom PHP data to JavaScript.
+		 *
+		 * wp_localize_script(
+		 *     'woodev-starter-tool',
+		 *     'woodevStarterTool',
+		 *     [
+		 *         'customSetting' => get_option( 'woodev_custom_setting', '' ),
+		 *     ]
+		 * );
+		 */
 	}
 );

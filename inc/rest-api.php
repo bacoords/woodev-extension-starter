@@ -2,6 +2,12 @@
 /**
  * REST API endpoints for WooDev Extension Starter.
  *
+ * This file provides a template for custom REST API endpoints.
+ *
+ * NOTE: The DataViews demo uses @wordpress/core-data with WordPress pages,
+ * which uses the built-in WordPress REST API. You only need custom endpoints
+ * for operations not covered by core (e.g., custom business logic, aggregations).
+ *
  * @package WoodevExtensionStarter
  */
 
@@ -11,90 +17,92 @@ namespace WoodevExtensionStarter\RestAPI;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Register custom REST API endpoints.
+ *
+ * Uncomment and customize the examples below when you need custom endpoints.
+ */
 add_action(
 	'rest_api_init',
 	function () {
+		// Example: Custom endpoint for aggregated data or business logic.
 		register_rest_route(
 			'woodev-starter/v1',
-			'/items',
-			array(
+			'/settings',
+			[
 				'methods'             => 'GET',
-				'callback'            => __NAMESPACE__ . '\get_items',
+				'callback'            => __NAMESPACE__ . '\get_settings',
 				'permission_callback' => function () {
 					return current_user_can( 'manage_options' );
 				},
-				'args'                => array(
-					'page'     => array(
-						'default'           => 1,
-						'sanitize_callback' => 'absint',
-					),
-					'per_page' => array(
-						'default'           => 20,
-						'sanitize_callback' => 'absint',
-					),
-				),
-			)
+			]
 		);
 
 		register_rest_route(
 			'woodev-starter/v1',
-			'/items/(?P<id>\d+)',
-			array(
+			'/settings',
+			[
 				'methods'             => 'POST',
-				'callback'            => __NAMESPACE__ . '\update_item',
+				'callback'            => __NAMESPACE__ . '\update_settings',
 				'permission_callback' => function () {
 					return current_user_can( 'manage_options' );
 				},
-				'args'                => array(
-					'id' => array(
+				'args'                => [
+					'option_name'  => [
 						'required'          => true,
-						'validate_callback' => function ( $param ) {
-							return is_numeric( $param );
-						},
-					),
-				),
-			)
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+					'option_value' => [
+						'required'          => true,
+						'sanitize_callback' => 'sanitize_text_field',
+					],
+				],
+			]
 		);
 	}
 );
 
 /**
- * Get items with pagination.
+ * Get plugin settings.
  *
- * @param \WP_REST_Request $request The request object.
  * @return \WP_REST_Response
  */
-function get_items( \WP_REST_Request $request ): \WP_REST_Response {
-	$page     = $request->get_param( 'page' );
-	$per_page = $request->get_param( 'per_page' );
+function get_settings(): \WP_REST_Response {
+	// Example: Return plugin options.
+	$settings = [
+		'example_option' => get_option( 'woodev_example_option', '' ),
+	];
 
-	// Your query logic here.
-	$items = array();
-	$total = 0;
-
-	$response = new \WP_REST_Response( $items, 200 );
-	$response->header( 'X-WP-Total', (string) $total );
-	$response->header( 'X-WP-TotalPages', (string) ceil( $total / $per_page ) );
-
-	return $response;
+	return new \WP_REST_Response( $settings, 200 );
 }
 
 /**
- * Update a single item.
+ * Update plugin settings.
  *
  * @param \WP_REST_Request $request The request object.
  * @return \WP_REST_Response
  */
-function update_item( \WP_REST_Request $request ): \WP_REST_Response {
-	$id = (int) $request->get_param( 'id' );
+function update_settings( \WP_REST_Request $request ): \WP_REST_Response {
+	$option_name  = $request->get_param( 'option_name' );
+	$option_value = $request->get_param( 'option_value' );
 
-	// Your update logic here.
+	// Validate option name is one of our allowed options.
+	$allowed_options = [ 'woodev_example_option' ];
+	if ( ! in_array( $option_name, $allowed_options, true ) ) {
+		return new \WP_REST_Response(
+			[ 'error' => 'Invalid option name' ],
+			400
+		);
+	}
+
+	update_option( $option_name, $option_value );
 
 	return new \WP_REST_Response(
-		array(
+		[
 			'success' => true,
-			'id'      => $id,
-		),
+			'option'  => $option_name,
+			'value'   => $option_value,
+		],
 		200
 	);
 }

@@ -21,7 +21,12 @@ export default function Edit() {
 				</p>
 			</div>
 			<p className="woodev-toggle-block__editor-note">
-				<em>{ __( 'Toggle interaction works on the frontend.', 'woodev-extension-starter' ) }</em>
+				<em>
+					{ __(
+						'Toggle interaction works on the frontend.',
+						'woodev-extension-starter'
+					) }
+				</em>
 			</p>
 		</div>
 	);

@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <div
-	<?php echo get_block_wrapper_attributes( array( 'class' => 'woodev-toggle-block' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+	<?php echo get_block_wrapper_attributes( [ 'class' => 'woodev-toggle-block' ] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	data-wp-interactive="woodev-starter/toggle-content"
 	data-wp-context='{ "isOpen": false }'
 >

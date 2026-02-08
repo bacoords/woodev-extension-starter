@@ -1,31 +1,43 @@
-import { DataViews } from '@wordpress/dataviews/wp';
-import { useState } from '@wordpress/element';
-import { useItems } from '../hooks/useItems';
-import { fields, actions } from '../config/itemConfig';
+/**
+ * Main App component with tab navigation.
+ *
+ * Uses WordPress TabPanel for navigation between views.
+ */
+import { TabPanel } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { useNavigation } from '../hooks/useNavigation';
+import PagesView from './views/PagesView';
+import SettingsView from './views/SettingsView';
 
 export default function App() {
-    const [view, setView] = useState({
-        type: 'table',
-        perPage: 20,
-        page: 1,
-        sort: { field: 'date', direction: 'desc' },
-        search: '',
-        filters: [],
-    });
+	const { currentView, handleTabSelect, VIEWS } = useNavigation();
 
-    const { records, total, isLoading, refetch } = useItems(view);
+	const tabs = [
+		{
+			name: VIEWS.PAGES,
+			title: __( 'Pages', 'woodev-extension-starter' ),
+			content: <PagesView />,
+		},
+		{
+			name: VIEWS.SETTINGS,
+			title: __( 'Settings', 'woodev-extension-starter' ),
+			content: <SettingsView />,
+		},
+	];
 
-    return (
-        <DataViews
-            data={records}
-            fields={fields}
-            view={view}
-            onChangeView={setView}
-            actions={actions(refetch)}
-            paginationInfo={{ totalItems: total, totalPages: Math.ceil(total / view.perPage) }}
-            isLoading={isLoading}
-            getItemId={(item) => item.id}
-            defaultLayouts={{ table: {}, grid: {} }}
-        />
-    );
+	return (
+		<div className="woodev-starter-app">
+			<TabPanel
+				tabs={ tabs }
+				initialTabName={ currentView }
+				onSelect={ handleTabSelect }
+			>
+				{ ( { content } ) => (
+					<div className="woodev-starter-tab-content">
+						{ content }
+					</div>
+				) }
+			</TabPanel>
+		</div>
+	);
 }

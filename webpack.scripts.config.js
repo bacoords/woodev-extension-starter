@@ -14,7 +14,8 @@ module.exports = {
 	plugins: [
 		...defaultConfig.plugins.filter(
 			( plugin ) =>
-				plugin.constructor.name !== 'DependencyExtractionWebpackPlugin' &&
+				plugin.constructor.name !==
+					'DependencyExtractionWebpackPlugin' &&
 				plugin.constructor.name !== 'CopyPlugin'
 		),
 		new WooCommerceDependencyExtractionWebpackPlugin(),
